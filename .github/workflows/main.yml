@@ -2,9 +2,8 @@ name: Run Cypress Tests Daily at 10 AM NPT
 
 on:
   schedule:
-    # 10:00 NPT = 04:15 UTC
-    - cron: '15 4 * * *'
-  workflow_dispatch: # allows manual trigger
+    - cron: '15 4 * * *' # 10:00 NPT
+  workflow_dispatch: # manual trigger
 
 jobs:
   cypress-run:
@@ -20,7 +19,7 @@ jobs:
           node-version: '18'
 
       - name: Install Dependencies
-        run: npm install
+        run: npm ci
 
       - name: Run Cypress Tests
         uses: cypress-io/github-action@v5
