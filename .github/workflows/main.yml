@@ -1,10 +1,9 @@
-name: Run Cypress Tests
+name: Run Cypress Tests with Allure
 
-# Run manually or daily at 10 AM NPT
 on:
   workflow_dispatch:
   schedule:
-    - cron: '30 04 * * *' # 10:30 AM NPT (UTC+5:45 → 04:45 UTC approx)
+    - cron: '30 04 * * *' # 10:30 AM NPT ≈ 04:30 UTC
 
 jobs:
   cypress-run:
@@ -26,4 +25,15 @@ jobs:
         run: npx cypress verify
 
       - name: Run Cypress tests
-        run: npx cypress run --browser chrome --headless
+        run: npx cypress run --env allure=true --browser chrome --headless
+        continue-on-error: true   # <-- Important: Don't stop workflow on test failure
+
+      - name: Generate Allure Report
+        run: npx allure generate allure-results --clean -o allure-report
+
+      - name: Deploy Allure Report to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./allure-report
+          publish_branch: gh-pages
