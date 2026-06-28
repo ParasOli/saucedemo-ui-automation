@@ -2,8 +2,8 @@ name: Run Cypress Tests with Allure
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '30 04 * * *' # 10:30 AM NPT ≈ 04:30 UTC
+  # schedule:
+  #   - cron: '30 04 * * *' # 10:30 AM NPT ≈ 04:30 UTC
 
 jobs:
   cypress-run:
